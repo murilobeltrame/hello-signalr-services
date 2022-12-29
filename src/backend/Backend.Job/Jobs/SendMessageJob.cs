@@ -14,7 +14,7 @@ namespace Backend.Job.Jobs
 
 		public Task SendAsync(string message)
 		{
-			var internalMessage = $"{message} @ ${DateTime.UtcNow}";
+			var internalMessage = $"{message} @ {DateTime.UtcNow}";
 			return _hub.Clients.All.SendAsync("messaging", internalMessage);
 		}
 	}

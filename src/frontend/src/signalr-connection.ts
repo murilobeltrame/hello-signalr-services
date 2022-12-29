@@ -1,8 +1,8 @@
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
 import axios from "axios"
 
-const AUTH_URL = process.env.AUTH_URL!
-const HUB_URL = process.env.HUB_URL!
+const AUTH_URL = process.env.REACT_APP_AUTH_URL!
+const HUB_URL = process.env.REACT_APP_HUB_URL!
 
 class Connector {
     private connection: HubConnection
@@ -29,7 +29,7 @@ class Connector {
         }
     }
 
-    public newMessage(message: string) {
+    public newMessage = (message: string) => {
         console.log(`Sending ${message}`)
         this.connection
             .send('newMessage', message)

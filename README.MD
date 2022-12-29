@@ -2,7 +2,7 @@
 
 ## Run
 
-- Configure remote environment:
+Configure remote environment:
 
 ```sh
 $ cd src/environment
@@ -11,7 +11,7 @@ $ terraform init
 $ terraform apply
 ```
 
-- Configure application secrets:
+Configure applications secrets:
 
 ```sh
 $ cd src/environment
@@ -21,10 +21,23 @@ $ dotnet user-secrets --project ../backend/Backend.Api set "Azure:SignalR:Connec
 $ dotnet user-secrets --project ../backend/Backend.Job set "Azure:SignalR:ConnectionString" "$(terraform output -raw SignalRServiceConnectionString)"
 ```
 
-- Run backend applications:
+Run backend applications:
 
 ```sh
 $ cd src/backend
-dotnet watch run --project Backend.Api
-dotnet watch run --project Backend.Job
+$ dotnet watch run --project Backend.Api
+$ dotnet watch run --project Backend.Job
+```
+
+Configure frontend application:
+
+- Rename `src/frontend/.env.example` to `src/frontend/.env.local`
+- Fix URLs to match the running port for API application
+
+Run frontend application:
+
+```sh
+$ cd src/frontend
+$ npm ci
+$ npm start
 ```

@@ -8,7 +8,7 @@ namespace Backend.Api.Hubs
     {
         public async Task NewMessage(string message)
         {
-            var internalMessage = $"{message} @ ${DateTime.UtcNow}";
+            var internalMessage = $"{message} @ {DateTime.UtcNow}";
             await Clients.All.SendAsync("messaging", internalMessage);
         }
     }
