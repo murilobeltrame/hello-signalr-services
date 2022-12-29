@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -11,6 +12,9 @@ namespace Backend.Api.Controllers
         public string Name { get; set; } = string.Empty;
     }
 
+    [AllowAnonymous]
+    [ApiController]
+    [Route("token")]
     public class TokenController: ControllerBase
 	{
         private readonly string _key;
