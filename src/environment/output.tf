@@ -3,5 +3,6 @@ output "random_pet_name" {
 }
 
 output "SignalRServiceConnectionString" {
-  value = azurerm_signalr_service.srs.primary_connection_string
+  sensitive = true
+  value     = azurerm_signalr_service.srs.primary_connection_string
 }
