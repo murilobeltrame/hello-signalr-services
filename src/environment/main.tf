@@ -1,13 +1,25 @@
-
-resource "azurerm_resource_group" "example" {
-  name     = "terraform-signalr"
-  location = "West Europe"
+provider "azurerm" {
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
 }
 
-resource "azurerm_signalr_service" "example" {
-  name                = "tfex-signalr"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+resource "random_pet" "random" {
+  separator = ""
+  length    = 2
+}
+
+resource "azurerm_resource_group" "rg" {
+  name     = "rg-${random_pet.random.id}"
+  location = var.location
+}
+
+resource "azurerm_signalr_service" "srs" {
+  name                = "srs${random_pet.random.id}"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 
   sku {
     name     = "Free_F1"
@@ -15,17 +27,14 @@ resource "azurerm_signalr_service" "example" {
   }
 
   cors {
-    allowed_origins = ["http://www.example.com"]
+    allowed_origins = ["*"]
+  }
+
+  live_trace {
+    enabled = true
   }
 
   connectivity_logs_enabled = true
   messaging_logs_enabled    = true
   service_mode              = "Default"
-
-  upstream_endpoint {
-    category_pattern = ["connections", "messages"]
-    event_pattern    = ["*"]
-    hub_pattern      = ["hub1"]
-    url_template     = "http://foo.com"
-  }
 }
